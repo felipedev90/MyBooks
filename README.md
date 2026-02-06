@@ -90,14 +90,15 @@ Abra no navegador (Vite geralmente usa):
 ## Estrutura de pastas
 
 src/
-components/
-BookForm.tsx
-BookItem.tsx
-BookList.tsx
-Header.tsx
-services/
-booksApi.ts
-types/
-book.ts
-App.tsx
-main.tsx
+├─ components/
+│ ├─ BookForm.tsx
+│ ├─ BookItem.tsx
+│ ├─ BookList.tsx
+│ └─ Header.tsx
+├─ services/
+│ └─ booksApi.ts
+├─ types/
+│ └─ book.ts
+├─ App.tsx
+├─ main.tsx
+└─ index.css
