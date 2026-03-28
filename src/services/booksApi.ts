@@ -1,13 +1,23 @@
+import { createClient } from "@supabase/supabase-js";
 import type { Book, BookInput } from "../types/book";
 
-const API_URL =
-  "https://crudcrud.com/api/1f39ac4e38e342d2bb95f1cc1af7cec6/livros";
+// Você precisará pegar essas credenciais no painel do Supabase
+// e colocar no seu arquivo .env (ou nas variáveis de ambiente da Vercel)
+
+const SUPABASE_URL = "https://yadwglzzzpojzywflxss.supabase.co";
+const SUPABASE_KEY = "sb_publishable_zzJZSUtTqTJP1rUQewKTIg_9wykWi7L";
+
+const supabaseUrl = process.env.SUPABASE_URL || SUPABASE_URL;
+const supabaseKey = process.env.SUPABASE_KEY || SUPABASE_KEY;
+
+export const supabase = createClient(supabaseUrl, supabaseKey);
 
 export async function getBooks(): Promise<Book[]> {
   try {
-    const res = await fetch(API_URL);
-    if (!res.ok) throw new Error(`HTTP error! Status: ${res.status}`);
-    return (await res.json()) as Book[];
+    const { data, error } = await supabase.from("livros").select("*");
+
+    if (error) throw error;
+    return data as Book[];
   } catch (error) {
     console.error("Fetch error:", error);
     throw error;
@@ -16,14 +26,14 @@ export async function getBooks(): Promise<Book[]> {
 
 export async function createBook(payload: BookInput): Promise<Book> {
   try {
-    const res = await fetch(API_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    });
+    const { data, error } = await supabase
+      .from("livros")
+      .insert([payload])
+      .select()
+      .single(); // .single() garante que retorne o objeto, e não um array
 
-    if (!res.ok) throw new Error(`HTTP error! Status: ${res.status}`);
-    return (await res.json()) as Book;
+    if (error) throw error;
+    return data as Book;
   } catch (error) {
     console.error("Post error:", error);
     throw error;
@@ -32,8 +42,9 @@ export async function createBook(payload: BookInput): Promise<Book> {
 
 export async function deleteBook(id: string): Promise<void> {
   try {
-    const res = await fetch(`${API_URL}/${id}`, { method: "DELETE" });
-    if (!res.ok) throw new Error(`HTTP error! Status: ${res.status}`);
+    const { error } = await supabase.from("livros").delete().eq("id", id); // Filtra pelo ID
+
+    if (error) throw error;
   } catch (error) {
     console.error("Delete error:", error);
     throw error;
@@ -45,15 +56,15 @@ export async function updateBookStatus(
   status: Book["status"],
 ): Promise<Book> {
   try {
-    const res = await fetch(`${API_URL}/${id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ status }),
-    });
+    const { data, error } = await supabase
+      .from("livros")
+      .update({ status })
+      .eq("id", id)
+      .select()
+      .single();
 
-    if (!res.ok) throw new Error(`HTTP error! Status: ${res.status}`);
-
-    return { _id: id, title: "", author: "", status } as Book;
+    if (error) throw error;
+    return data as Book;
   } catch (error) {
     console.error("Put error:", error);
     throw error;
