@@ -1,14 +1,8 @@
 import { createClient } from "@supabase/supabase-js";
 import type { Book, BookInput } from "../types/book";
 
-// Você precisará pegar essas credenciais no painel do Supabase
-// e colocar no seu arquivo .env (ou nas variáveis de ambiente da Vercel)
-
-const SUPABASE_URL = "https://yadwglzzzpojzywflxss.supabase.co";
-const SUPABASE_KEY = "sb_publishable_zzJZSUtTqTJP1rUQewKTIg_9wykWi7L";
-
-const supabaseUrl = process.env.SUPABASE_URL || SUPABASE_URL;
-const supabaseKey = process.env.SUPABASE_KEY || SUPABASE_KEY;
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL as string;
+const supabaseKey = import.meta.env.VITE_SUPABASE_KEY as string;
 
 export const supabase = createClient(supabaseUrl, supabaseKey);
 

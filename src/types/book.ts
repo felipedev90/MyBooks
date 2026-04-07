@@ -1,10 +1,10 @@
 export type BookStatus = "Lido" | "Não lido";
 
 export type Book = {
+  id: string;
   title: string;
   author: string;
   status: BookStatus;
-  _id: string;
 };
 
-export type BookInput = Omit<Book, "_id">;
+export type BookInput = Omit<Book, "id">;

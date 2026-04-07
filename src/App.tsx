@@ -37,7 +37,7 @@ function App() {
 
   async function handleRemove(id: string) {
     await deleteBook(id);
-    setBooks((prev) => prev.filter((book) => book._id !== id));
+    setBooks((prev) => prev.filter((book) => book.id !== id));
   }
 
   return (
@@ -88,7 +88,7 @@ function App() {
               <ul className="space-y-3">
                 {books.map((book) => (
                   <li
-                    key={book._id}
+                    key={book.id}
                     className="rounded-xl border border-zinc-800 bg-zinc-950/30 p-4 flex items-start justify-between gap-4"
                   >
                     <div className="min-w-0">
@@ -113,7 +113,7 @@ function App() {
 
                     <button
                       type="button"
-                      onClick={() => handleRemove(book._id)}
+                      onClick={() => handleRemove(book.id)}
                       className="shrink-0 rounded-lg border border-zinc-800 bg-zinc-900 px-3 py-2 text-sm hover:bg-zinc-800 active:scale-[0.99]"
                       aria-label={`Remover ${book.title}`}
                       title="Remover"
