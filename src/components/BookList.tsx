@@ -20,7 +20,7 @@ export default function BookList({
       <ul style={{ display: "grid", gap: 8, paddingLeft: 16 }}>
         {books.map((book) => (
           <BookItem
-            key={book._id}
+            key={book.id}
             book={book}
             onRemove={onRemove}
             onToggleStatus={onToggleStatus}

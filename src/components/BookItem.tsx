@@ -24,7 +24,7 @@ export default function BookItem({
         </button>
       )}
 
-      <button type="button" onClick={() => onRemove(book._id)}>
+      <button type="button" onClick={() => onRemove(book.id)}>
         Remover
       </button>
     </li>
